@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Classement Mensuel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
+    <h1 class="text-2xl font-bold mb-4">Classement des Scores</h1>
+
+    <!-- Sélection du mois et année -->
+    <div class="flex gap-4 mb-4">
+      <input type="number" id="year" placeholder="Année" class="border p-2 rounded w-24">
+      <input type="number" id="month" placeholder="Mois" min="1" max="12" class="border p-2 rounded w-24">
+      <button onclick="loadScores()" class="bg-blue-500 text-white px-4 rounded hover:bg-blue-600">Charger</button>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="hidden text-center mb-4">
+      <span class="text-gray-500">Chargement des scores...</span>
+    </div>
+
+    <!-- Message pas de données -->
+    <div id="noData" class="hidden text-red-500 text-center mb-4"></div>
+
+    <!-- Tableau des scores -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 rounded">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 border-b">#</th>
+            <th class="p-2 border-b">Nom</th>
+            <th class="p-2 border-b">Score</th>
+          </tr>
+        </thead>
+        <tbody id="scoreBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Bouton Voir Tout -->
+    <div class="mt-4 text-center">
+      <button id="viewAllBtn" class="hidden bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Voir tout</button>
+    </div>
+  </div>
+
+  <script>
+    const today = new Date();
+    document.getElementById("year").value = today.getFullYear();
+    document.getElementById("month").value = today.getMonth() + 1;
+
+    let allRanking = []; // pour stocker le classement complet
+
+    async function loadScores(showAll = false) {
+      const year = document.getElementById("year").value;
+      const month = document.getElementById("month").value;
+      const tbody = document.getElementById("scoreBody");
+      const loader = document.getElementById("loader");
+      const noData = document.getElementById("noData");
+      const viewAllBtn = document.getElementById("viewAllBtn");
+
+      loader.classList.remove("hidden");
+      tbody.innerHTML = "";
+      noData.classList.add("hidden");
+      viewAllBtn.classList.add("hidden");
+
+      try {
+        const response = await fetch(`http://localhost:7894/scores?year=${year}&month=${month}`);
+        if (!response.ok) throw new Error("Erreur serveur");
+
+        const data = await response.json();
+        loader.classList.add("hidden");
+
+        if (!data.ranking || data.ranking.length === 0) {
+          noData.textContent = "Aucun score trouvé pour cette période.";
+          noData.classList.remove("hidden");
+          return;
+        }
+
+        allRanking = data.ranking; // on garde le classement complet
+
+        const displayRanking = showAll ? allRanking : allRanking.slice(0, 3);
+
+        displayRanking.forEach((s, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td class="p-2 border-b">${index + 1}</td>
+            <td class="p-2 border-b">${s.name}</td>
+            <td class="p-2 border-b">${s.score}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        // Afficher le bouton voir tout si on montre le top 3
+        if (!showAll && allRanking.length > 3) {
+          viewAllBtn.classList.remove("hidden");
+        }
+      } catch (error) {
+        localStorage.removeItem('token')
+        loader.classList.add("hidden");
+        noData.textContent = "Impossible de charger les scores.";
+        noData.classList.remove("hidden");
+        console.error(error);
+      }
+    }
+
+    document.getElementById("viewAllBtn").addEventListener("click", () => {
+      loadScores(true);
+    });
+
+    // Chargement initial du mois en cours
+    loadScores();
+  </script>
+</body>
+</html>
