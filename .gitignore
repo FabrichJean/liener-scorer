@@ -1,0 +1,59 @@
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env files - Overrides locaux uniquement
+.env.local
+.env.*.local
+
+# Ne pas ignorer les configurations d'environnement (committées)
+!.env.example
+!.env.development
+!.env.production
+!.env.test
+!.env.local.example
+
+# Note: .env n'est plus utilisé - chaque environnement a son propre fichier
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+coverage/
+
+# Local data
+data/
+
+# Uploads
+uploads/
+
+# FFmpeg binaires
+bin/
+
+# Temporary
+temp*
+.tmp
+
+# npm
+package-lock.json
+
+# Others
+.DS_Store

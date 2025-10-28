@@ -1,0 +1,24 @@
+{
+  "name": "bo-back-express",
+  "version": "1.0.0",
+  "description": "Video Management System (Express + S3 + MySQL)",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node src/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/app.js"
+  },
+  "dependencies": {
+    "@linear/sdk": "^63.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "qs": "^6.14.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "axios": "^1.13.0",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.0.2"
+  }
+}
