@@ -15,6 +15,7 @@ yarn-error.log*
 !.env.production
 !.env.test
 !.env.local.example
+!.env
 
 # Note: .env n'est plus utilisé - chaque environnement a son propre fichier
 
