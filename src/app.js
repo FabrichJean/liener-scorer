@@ -95,11 +95,7 @@ const PORT = 7894;
 const HOST = 'localhost';
 const start = async () => {
   try {
-
     server.listen(PORT, HOST, () => {
-      const settings = global.activeSettings;
-      console.log(`Server running on http://${HOST}:${PORT}`);
-      console.log(`API endpoints available at:`);
       console.log(`- Main: http://${HOST}:${PORT}`);
     });
   } catch (err) {
@@ -114,3 +110,4 @@ const start = async () => {
 start();
 
 module.exports = app;
+
