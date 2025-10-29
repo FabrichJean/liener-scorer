@@ -92,22 +92,14 @@ app.get("/scores", async (req, res) => {
 
 
 const PORT = 7894;
-const HOST = 'localhost';
 const start = async () => {
-  try {
-    server.listen(PORT, HOST, () => {
+    server.listen(PORT, () => {
       console.log(`- Main: http://${HOST}:${PORT}`);
-    });
-  } catch (err) {
-    console.error('Unable to start server, DB error:', err);
-
-    server.listen(PORT, HOST, () => {
-      console.log(`Server running on http://${HOST}:${PORT} (DB not available)`);
-    });
-  }
+    })
 };
 
 start();
 
 module.exports = app;
+
 
