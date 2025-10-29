@@ -94,12 +94,13 @@ app.get("/scores", async (req, res) => {
 const PORT = 7894;
 const start = async () => {
     server.listen(PORT, () => {
-      console.log(`- Main: http://${HOST}:${PORT}`);
+      console.log(`- Main: on :${PORT}`);
     })
 };
 
 start();
 
 module.exports = app;
+
 
 
