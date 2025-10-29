@@ -66,7 +66,7 @@
       viewAllBtn.classList.add("hidden");
 
       try {
-        const response = await fetch(`http://localhost:7894/scores?year=${year}&month=${month}`);
+        const response = await fetch(`/scores?year=${year}&month=${month}`);
         if (!response.ok) throw new Error("Erreur serveur");
 
         const data = await response.json();
@@ -114,3 +114,4 @@
   </script>
 </body>
 </html>
+
